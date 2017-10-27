@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.cmd.testproject.Database.DbOps;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,12 +27,8 @@ public class ProductHolder {
     }
 
     private ProductHolder(Context ctx) {
-            mProducts = new ArrayList<>();
-            for (int i = 0; i < 4; i++) {
-                Product product = new Product("Product = " + i, "Desc = "
-                        + i, "ImgUrl = " + i, "Price = " + i + 2.2);
-                mProducts.add(product);
-            }
+        //TODO: Look if it will require a seprate thread;
+        mProducts = DbOps.get().getProducts();
     }
 
     public Product getProduct(UUID prodId) {
