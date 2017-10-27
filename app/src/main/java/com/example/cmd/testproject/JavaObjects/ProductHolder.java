@@ -41,7 +41,10 @@ public class ProductHolder {
         return null;
     }
 
+    //TODO: make dbQuery <---
     public List<Product> getProducts() {
         return mProducts;
     }
+    public void addProduct(Product p) { mProducts.add(p); }
+    //TODO: make dbQuery --- >
 }
