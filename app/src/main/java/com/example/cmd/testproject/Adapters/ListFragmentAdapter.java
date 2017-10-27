@@ -1,31 +1,21 @@
 package com.example.cmd.testproject.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cmd.testproject.Activitys.ProductPageActivity;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
 
 import java.util.List;
 
-import static android.content.ContentValues.TAG;
 
-/**
- * Created by cmd on 25.10.17.
- */
 
 public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapter.ProductListHolder> {
     private static final String TAG = "ListFragmentAdapter";

@@ -3,7 +3,6 @@ package com.example.cmd.testproject.Activitys;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,21 +10,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.Fragments.ProductFragment;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
 
 import java.util.List;
-import java.util.UUID;
 
-/**
- * Created by cmd on 26.10.17.
- */
+
 
 public class ProductPageActivity extends AppCompatActivity {
     private static final String PRODUCT_ID = "com.example.cmd.testproject.Activitys.ProductPageActivity.product_id";
-    private UUID productId;
+    private String productId;
 
     private ViewPager mPager;
     private List<Product> mProducts;
@@ -35,11 +31,11 @@ public class ProductPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_page_activity);
 
-        productId = (UUID) getIntent().getSerializableExtra(PRODUCT_ID);
+        productId = getIntent().getStringExtra(PRODUCT_ID);
 
         mPager = (ViewPager) findViewById(R.id.viewPager);
 
-        mProducts = ProductHolder.get(this).getProducts();
+        mProducts = DbOps.get(getApplicationContext()).getProducts();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 
@@ -64,7 +60,7 @@ public class ProductPageActivity extends AppCompatActivity {
         }
     }
 
-    public static Intent newIntent(Context packageContext, UUID productID) {
+    public static Intent newIntent(Context packageContext, String productID) {
         Intent intent = new Intent(packageContext, ProductPageActivity.class);
         intent.putExtra(PRODUCT_ID, productID);
         return intent;

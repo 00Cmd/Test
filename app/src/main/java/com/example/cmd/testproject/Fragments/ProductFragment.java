@@ -4,29 +4,17 @@ package com.example.cmd.testproject.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
 
 import java.util.List;
-import java.util.UUID;
 
-import static android.content.ContentValues.TAG;
-
-/**
- * Created by cmd on 25.10.17.
- */
 
 public class ProductFragment extends Fragment {
     private static final String TAG = "ProductFragment";
@@ -37,7 +25,7 @@ public class ProductFragment extends Fragment {
 
 
 
-    public static Fragment newInstance(UUID productID) {
+    public static Fragment newInstance(String productID) {
         Bundle args = new Bundle();
         args.putSerializable(ARGUMENT_PROD_ID,productID);
         ProductFragment frag = new ProductFragment();
@@ -51,8 +39,8 @@ public class ProductFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
-            UUID id = (UUID) getArguments().getSerializable(ARGUMENT_PROD_ID);
-            product = ProductHolder.get(getContext()).getProduct(id);
+            String id = getArguments().getString(ARGUMENT_PROD_ID);
+            product = DbOps.get(getActivity()).getProduct(id);
         }
     }
 

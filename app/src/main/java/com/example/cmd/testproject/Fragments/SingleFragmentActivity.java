@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.cmd.testproject.R;
 
-/**
- * Created by cmd on 25.10.17.
- */
+
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 

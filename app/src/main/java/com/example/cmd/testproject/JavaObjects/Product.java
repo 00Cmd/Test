@@ -2,27 +2,25 @@ package com.example.cmd.testproject.JavaObjects;
 
 import java.util.UUID;
 
-/**
- * Created by cmd on 25.10.17.
- */
+
 
 public class Product {
     private String title,desc,imgUrl;
     private String price;
-    private UUID id;
+    private String id;
 
     public Product(String title, String desc, String imgUrl, String price) {
         this.title = title;
         this.desc = desc;
         this.imgUrl = imgUrl;
         this.price = price;
-        this.id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
     }
 
     public Product() {
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 

@@ -18,8 +18,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cmd.testproject.Adapters.ListFragmentAdapter;
+import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
 
 import java.util.List;
@@ -41,6 +41,7 @@ public class ProductListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
 
     }
 
@@ -65,19 +66,23 @@ public class ProductListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.addProduct:
                 createDialog();
-                //TODO: Run a new Dialog to add product
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateUI();
+    }
+
     private void updateUI() {
-        ProductHolder holder = ProductHolder.get(getActivity());
-        mProducts = holder.getProducts();
+        mProducts = DbOps.get(getActivity()).getProducts();
 
         if (mAdapter == null) {
-            ListFragmentAdapter adapter = new ListFragmentAdapter(mProducts);
-            mRecyclerView.setAdapter(adapter);
+            mAdapter = new ListFragmentAdapter(mProducts);
+            mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
         }
@@ -106,7 +111,12 @@ public class ProductListFragment extends Fragment {
                     String price = mPrice.getText().toString();
                     String imgUrl = "randomText";
                     Product pr = new Product(title,desc,imgUrl,price);
-                    ProductHolder.get(getActivity()).addProduct(pr);
+                    DbOps.get(getActivity()).addProduct(pr);
+                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
+                    mTtitle.setText("");
+                    mDesc.setText("");
+                    mPrice.setText("");
+
                 }
             }
         });
