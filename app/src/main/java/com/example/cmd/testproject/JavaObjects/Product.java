@@ -8,16 +8,38 @@ public class Product {
     private String title,desc,imgUrl;
     private String price;
     private String id;
+    private long mId;
 
-    public Product(String title, String desc, String imgUrl, String price) {
+//    public Product(String title, String desc, String imgUrl, String price) {
+//        this.title = title;
+//        this.desc = desc;
+//        this.imgUrl = imgUrl;
+//        this.price = price;
+//        this.id = UUID.randomUUID().toString();
+//    }
+
+    public Product(Long id,String title, String desc, String imgUrl, String price) {
+        this.mId = id;
         this.title = title;
         this.desc = desc;
         this.imgUrl = imgUrl;
         this.price = price;
-        this.id = UUID.randomUUID().toString();
+
     }
 
     public Product() {
+    }
+
+    public long getmId() {
+        return mId;
+    }
+
+    public void setmId(long mId) {
+        this.mId = mId;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getId() {

@@ -66,9 +66,16 @@ public class DbOps {
 
     public List<Product> getProducts() {
 
+<<<<<<< HEAD
         ValueEventListener valueListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+=======
+        dbRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mProducts = new ArrayList<>();
+>>>>>>> databaseTestingBranch
                 Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
                 while (iterator.hasNext()) {
                     Product pr = dataSnapshot.getValue(Product.class);
@@ -80,8 +87,12 @@ public class DbOps {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+<<<<<<< HEAD
         };
         dbRef.addValueEventListener(valueListener);
+=======
+        });
+>>>>>>> databaseTestingBranch
         return mProducts;
     }
 
