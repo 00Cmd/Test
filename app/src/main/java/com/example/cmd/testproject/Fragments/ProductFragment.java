@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.cmd.testproject.Database.DbOperations;
 import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -22,10 +25,11 @@ public class ProductFragment extends Fragment {
     private TextView mTitle,mDesc,mImgUrl,mPrice;
     private List<Product> mProducts;
     private Product product;
+    private FirebaseDatabase ref;
 
 
 
-    public static Fragment newInstance(String productID) {
+    public static Fragment newInstance(long productID) {
         Bundle args = new Bundle();
         args.putSerializable(ARGUMENT_PROD_ID,productID);
         ProductFragment frag = new ProductFragment();
@@ -39,9 +43,10 @@ public class ProductFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
-            String id = getArguments().getString(ARGUMENT_PROD_ID);
-            product = DbOps.get(getActivity()).getProduct(id);
+            long id = getArguments().getLong(ARGUMENT_PROD_ID);
+            product = DbOperations.get(getActivity()).getProduct(id);
         }
+        ref = FirebaseDatabase.getInstance();
     }
 
     @Nullable

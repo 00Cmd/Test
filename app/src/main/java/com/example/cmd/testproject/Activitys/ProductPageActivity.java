@@ -13,7 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.Fragments.ProductFragment;
 import com.example.cmd.testproject.JavaObjects.Product;
+import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -21,7 +24,7 @@ import java.util.List;
 
 public class ProductPageActivity extends AppCompatActivity {
     private static final String PRODUCT_ID = "com.example.cmd.testproject.Activitys.ProductPageActivity.product_id";
-    private String productId;
+    private long productId;
 
     private ViewPager mPager;
     private List<Product> mProducts;
@@ -30,8 +33,7 @@ public class ProductPageActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_page_activity);
-
-        productId = getIntent().getStringExtra(PRODUCT_ID);
+        productId = getIntent().getLongExtra(PRODUCT_ID,0);
 
         mPager = (ViewPager) findViewById(R.id.viewPager);
 
@@ -43,7 +45,7 @@ public class ProductPageActivity extends AppCompatActivity {
             public Fragment getItem(int position) {
                 //TODO: for some reason keeps looping....do later!
                 Product pr = mProducts.get(position);
-                return ProductFragment.newInstance(pr.getId());
+                return ProductFragment.newInstance(pr.getmId());
             }
 
             @Override
@@ -60,7 +62,7 @@ public class ProductPageActivity extends AppCompatActivity {
         }
     }
 
-    public static Intent newIntent(Context packageContext, String productID) {
+    public static Intent newIntent(Context packageContext, long productID) {
         Intent intent = new Intent(packageContext, ProductPageActivity.class);
         intent.putExtra(PRODUCT_ID, productID);
         return intent;

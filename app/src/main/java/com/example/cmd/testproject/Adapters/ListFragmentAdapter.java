@@ -72,7 +72,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
 
         @Override
         public void onClick(View v) {
-            Intent i = ProductPageActivity.newIntent(v.getContext(),mProduct.getId());
+            Intent i = ProductPageActivity.newIntent(v.getContext(),mProduct.getmId());
             v.getContext().startActivity(i);
         }
     }

@@ -18,10 +18,19 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.cmd.testproject.Adapters.ListFragmentAdapter;
+import com.example.cmd.testproject.Database.DbHelper;
+import com.example.cmd.testproject.Database.DbOperations;
 import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
+import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,7 +60,6 @@ public class ProductListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.listRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
         return view;
     }
 
@@ -71,15 +79,27 @@ public class ProductListFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
+        addToDb();
         updateUI();
     }
 
-    private void updateUI() {
-        mProducts = DbOps.get(getActivity()).getProducts();
+    private void addToDb() {
+        List<Product> myProducts = new ArrayList<>();
+        for (int i = 0; i < 10 ; i++) {
+            Product pr = new Product(null, "Title " + i,
+                    "Desc " + i, "Price " + i, "imgUrl " + i);
+            DbOperations.get(getActivity()).addProduct(pr);
+        }
+    }
 
+    private void updateUI() {
+
+        mProducts = DbOperations.get(getActivity()).getAllProducts();
         if (mAdapter == null) {
             mAdapter = new ListFragmentAdapter(mProducts);
             mRecyclerView.setAdapter(mAdapter);
@@ -110,8 +130,8 @@ public class ProductListFragment extends Fragment {
                     String desc = mDesc.getText().toString();
                     String price = mPrice.getText().toString();
                     String imgUrl = "randomText";
-                    Product pr = new Product(title,desc,imgUrl,price);
-                    DbOps.get(getActivity()).addProduct(pr);
+                    Product pr = new Product(null,title,desc,imgUrl,price);
+                    DbOperations.get(getActivity()).addProduct(pr);
                     Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
                     mTtitle.setText("");
                     mDesc.setText("");
