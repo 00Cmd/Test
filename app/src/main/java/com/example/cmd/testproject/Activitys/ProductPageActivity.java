@@ -35,7 +35,7 @@ public class ProductPageActivity extends AppCompatActivity {
 
         mPager = (ViewPager) findViewById(R.id.viewPager);
 
-        mProducts = DbOps.get(getApplicationContext()).getProducts();
+//        mProducts = DbOps.get(getApplicationContext()).getProducts();
         FragmentManager fragmentManager = getSupportFragmentManager();
         mPager.setAdapter(new FragmentStatePagerAdapter(fragmentManager) {
 

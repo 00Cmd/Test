@@ -40,7 +40,8 @@ public class ProductFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             String id = getArguments().getString(ARGUMENT_PROD_ID);
-            product = DbOps.get(getActivity()).getProduct(id);
+            DbOps ops = new DbOps(getContext());
+            product = ops.getProduct(id);
         }
     }
 

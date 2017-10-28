@@ -12,29 +12,28 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 
 public class DbOps {
     private static DbOps sDbOps;
-    private FirebaseDatabase mDb;
     private DatabaseReference dbRef;
     private List<Product> mProducts;
     private Product pr;
 
-    public static DbOps get(Context ctx) {
-        if (sDbOps == null) {
-            sDbOps = new DbOps(ctx);
-        }
-        return sDbOps;
-    }
+//    public static DbOps get(Context ctx) {
+//        if (sDbOps == null) {
+//            sDbOps = new DbOps(ctx);
+//        }
+//        return sDbOps;
+//    }
 
-    private DbOps(Context ctx) {
-        mDb = FirebaseDatabase.getInstance();
-        dbRef = mDb.getReference().child("products");
+    public DbOps(Context ctx) {
+        dbRef = FirebaseDatabase.getInstance().getReference().child("products");
         if(mProducts == null) {
-            getProducts();
+            mProducts = new ArrayList<>();
         }
     }
 
@@ -66,13 +65,15 @@ public class DbOps {
 
 
     public List<Product> getProducts() {
-        ValueEventListener listener = new ValueEventListener() {
+
+        ValueEventListener valueListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot mObject : dataSnapshot.getChildren());
-                mProducts = new ArrayList<>();
-                Product pr = dataSnapshot.getValue(Product.class);
-                mProducts.add(pr);
+                Iterator<DataSnapshot> iterator = dataSnapshot.getChildren().iterator();
+                while (iterator.hasNext()) {
+                    Product pr = dataSnapshot.getValue(Product.class);
+                    mProducts.add(pr);
+                }
             }
 
             @Override
@@ -80,7 +81,7 @@ public class DbOps {
 
             }
         };
-        dbRef.addValueEventListener(listener);
+        dbRef.addValueEventListener(valueListener);
         return mProducts;
     }
 

@@ -29,6 +29,7 @@ public class ProductListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
+    private DbOps dbOps;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -41,6 +42,7 @@ public class ProductListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        dbOps = new DbOps(getContext());
 
 
     }
@@ -51,7 +53,6 @@ public class ProductListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.listRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        updateUI();
         return view;
     }
 
@@ -77,9 +78,16 @@ public class ProductListFragment extends Fragment {
         updateUI();
     }
 
-    private void updateUI() {
-        mProducts = DbOps.get(getActivity()).getProducts();
+//    private void addToDb() {
+//        for (int i = 0; i < 10 ; i++) {
+//            Product pr = new Product("title " + i,"Desc " + i,
+//                    "ImgUrl " + i,"Price " + i);
+//            myOps.addProduct(pr);
+//        }
+//    }
 
+    private void updateUI() {
+        mProducts = dbOps.getProducts();
         if (mAdapter == null) {
             mAdapter = new ListFragmentAdapter(mProducts);
             mRecyclerView.setAdapter(mAdapter);
@@ -111,7 +119,7 @@ public class ProductListFragment extends Fragment {
                     String price = mPrice.getText().toString();
                     String imgUrl = "randomText";
                     Product pr = new Product(title,desc,imgUrl,price);
-                    DbOps.get(getActivity()).addProduct(pr);
+                    dbOps.addProduct(pr);
                     Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
                     mTtitle.setText("");
                     mDesc.setText("");
