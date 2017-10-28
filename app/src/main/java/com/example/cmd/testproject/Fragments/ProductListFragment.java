@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +31,7 @@ import java.util.List;
 
 
 public class ProductListFragment extends Fragment {
+    private static final String TAG = "ProductListFragment";
     private RecyclerView mRecyclerView;
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
@@ -80,23 +82,14 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        addToDb();
         updateUI();
     }
 
 
 
-    private void addToDb() {
 
-        for (int i = 0; i < 10 ; i++) {
-            Product pr = new Product(i, "Title " + i,
-                    "Desc " + i, "Price " + i, "imgUrl " + i);
-            mHandler.addProduct(pr);
-        }
-    }
 
     private void updateUI() {
-
         mProducts = mHandler.getAllProducts();
 
         if (mAdapter == null) {
