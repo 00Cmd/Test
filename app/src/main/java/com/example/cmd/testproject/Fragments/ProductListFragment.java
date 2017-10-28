@@ -2,6 +2,8 @@ package com.example.cmd.testproject.Fragments;
 
 
 import android.app.Dialog;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,15 +22,8 @@ import android.widget.Toast;
 import com.example.cmd.testproject.Adapters.ListFragmentAdapter;
 import com.example.cmd.testproject.Database.DbHelper;
 import com.example.cmd.testproject.Database.DbOperations;
-import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +33,7 @@ public class ProductListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
-    private DbOps dbOps;
-
+    private DbHelper mHandler;
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -50,8 +44,8 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mHandler = new DbHelper(getContext());
         setHasOptionsMenu(true);
-        dbOps = new DbOps(getContext());
 
 
     }
@@ -90,31 +84,21 @@ public class ProductListFragment extends Fragment {
         updateUI();
     }
 
-<<<<<<< HEAD
-//    private void addToDb() {
-//        for (int i = 0; i < 10 ; i++) {
-//            Product pr = new Product("title " + i,"Desc " + i,
-//                    "ImgUrl " + i,"Price " + i);
-//            myOps.addProduct(pr);
-//        }
-//    }
 
-    private void updateUI() {
-        mProducts = dbOps.getProducts();
-=======
+
     private void addToDb() {
-        List<Product> myProducts = new ArrayList<>();
+
         for (int i = 0; i < 10 ; i++) {
-            Product pr = new Product(null, "Title " + i,
+            Product pr = new Product(i, "Title " + i,
                     "Desc " + i, "Price " + i, "imgUrl " + i);
-            DbOperations.get(getActivity()).addProduct(pr);
+            mHandler.addProduct(pr);
         }
     }
 
     private void updateUI() {
 
-        mProducts = DbOperations.get(getActivity()).getAllProducts();
->>>>>>> databaseTestingBranch
+        mProducts = mHandler.getAllProducts();
+
         if (mAdapter == null) {
             mAdapter = new ListFragmentAdapter(mProducts);
             mRecyclerView.setAdapter(mAdapter);
@@ -145,14 +129,13 @@ public class ProductListFragment extends Fragment {
                     String desc = mDesc.getText().toString();
                     String price = mPrice.getText().toString();
                     String imgUrl = "randomText";
-<<<<<<< HEAD
-                    Product pr = new Product(title,desc,imgUrl,price);
-                    dbOps.addProduct(pr);
-=======
-                    Product pr = new Product(null,title,desc,imgUrl,price);
-                    DbOperations.get(getActivity()).addProduct(pr);
->>>>>>> databaseTestingBranch
-                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
+//                    Product pr = new Product(title,desc,imgUrl,price);
+//                    dbOps.addProduct(pr);
+
+//                    Product pr = new Product(null,title,desc,imgUrl,price);
+//                    DbOperations.get(getActivity()).addProduct(pr);
+
+//                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
                     mTtitle.setText("");
                     mDesc.setText("");
                     mPrice.setText("");

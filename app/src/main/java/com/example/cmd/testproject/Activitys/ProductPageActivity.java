@@ -10,13 +10,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.Fragments.ProductFragment;
 import com.example.cmd.testproject.JavaObjects.Product;
-import com.example.cmd.testproject.JavaObjects.ProductHolder;
 import com.example.cmd.testproject.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -54,15 +50,15 @@ public class ProductPageActivity extends AppCompatActivity {
             }
         });
 
-        for (int i = 0; i < mProducts.size(); i++) {
-            if (mProducts.get(i).getId().equals(productId)) {
-                mPager.setCurrentItem(i);
-                break;
-            }
+//        for (int i = 0; i < mProducts.size(); i++) {
+////            if (mProducts.get(i).getId().equals(productId)) {
+////                mPager.setCurrentItem(i);
+////                break;
+//            }
         }
-    }
+//    }
 
-    public static Intent newIntent(Context packageContext, long productID) {
+    public static Intent newIntent(Context packageContext, int productID) {
         Intent intent = new Intent(packageContext, ProductPageActivity.class);
         intent.putExtra(PRODUCT_ID, productID);
         return intent;

@@ -8,7 +8,7 @@ public class Product {
     private String title,desc,imgUrl;
     private String price;
     private String id;
-    private long mId;
+    private int mId;
 
 //    public Product(String title, String desc, String imgUrl, String price) {
 //        this.title = title;
@@ -18,32 +18,25 @@ public class Product {
 //        this.id = UUID.randomUUID().toString();
 //    }
 
-    public Product(Long id,String title, String desc, String imgUrl, String price) {
+    public Product(int id,String title, String desc, String imgUrl, String price) {
         this.mId = id;
         this.title = title;
         this.desc = desc;
         this.imgUrl = imgUrl;
         this.price = price;
+        mId++;
 
     }
 
     public Product() {
     }
 
-    public long getmId() {
+    public int getmId() {
         return mId;
     }
 
-    public void setmId(long mId) {
+    public void setmId(int mId) {
         this.mId = mId;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getTitle() {

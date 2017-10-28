@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.cmd.testproject.Database.DbHelper;
 import com.example.cmd.testproject.Database.DbOperations;
-import com.example.cmd.testproject.Database.DbOps;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -23,13 +22,12 @@ public class ProductFragment extends Fragment {
     private static final String TAG = "ProductFragment";
     private static final String ARGUMENT_PROD_ID = "prod_id";
     private TextView mTitle,mDesc,mImgUrl,mPrice;
-    private List<Product> mProducts;
     private Product product;
-    private FirebaseDatabase ref;
 
 
 
-    public static Fragment newInstance(long productID) {
+
+    public static Fragment newInstance(int productID) {
         Bundle args = new Bundle();
         args.putSerializable(ARGUMENT_PROD_ID,productID);
         ProductFragment frag = new ProductFragment();
@@ -44,14 +42,10 @@ public class ProductFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
 
-            String id = getArguments().getString(ARGUMENT_PROD_ID);
-            DbOps ops = new DbOps(getContext());
-            product = ops.getProduct(id);
 
-            long mId = getArguments().getLong(ARGUMENT_PROD_ID);
-            product = DbOperations.get(getActivity()).getProduct(mId);
+            int mId = getArguments().getInt(ARGUMENT_PROD_ID);
+            product = DbHelper.get(getContext()).getProduct(mId);
         }
-        ref = FirebaseDatabase.getInstance();
     }
 
     @Nullable
