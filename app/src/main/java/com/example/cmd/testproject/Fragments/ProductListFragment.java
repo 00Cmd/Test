@@ -93,6 +93,8 @@ public class ProductListFragment extends Fragment {
     }
 
     private void updateUI() {
+
+        //Todo : add this to a new thread
         mProducts = mHandler.getAllProducts();
 
         if (mAdapter == null) {

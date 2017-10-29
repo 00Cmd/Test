@@ -20,6 +20,7 @@ public class FacebookAuthActivity extends AppCompatActivity {
         Fragment fragment = new FacebookAuthFragment();
         fm.beginTransaction().add(R.id.facebookAuthContainer,fragment)
                                                             .commit();
+        finish();
 
     }
 

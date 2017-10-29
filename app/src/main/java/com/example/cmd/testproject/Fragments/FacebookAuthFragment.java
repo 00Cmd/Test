@@ -62,6 +62,7 @@ public class FacebookAuthFragment extends Fragment {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getActivity(), "Logged in as " + loginResult.getAccessToken()
                         .getToken(), Toast.LENGTH_SHORT).show();
+                getActivity().finish();
             }
 
             @Override
