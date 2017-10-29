@@ -2,14 +2,12 @@ package com.example.cmd.testproject.Fragments;
 
 
 import android.app.Dialog;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,14 +18,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.cmd.testproject.Activitys.FacebookAuthActivity;
 import com.example.cmd.testproject.Adapters.ListFragmentAdapter;
 import com.example.cmd.testproject.Database.DbHelper;
-import com.example.cmd.testproject.Database.DbOperations;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
+import com.facebook.FacebookActivity;
 
-import java.util.ArrayList;
+
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class ProductListFragment extends Fragment {
@@ -36,6 +37,8 @@ public class ProductListFragment extends Fragment {
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
     private DbHelper mHandler;
+
+
     public ProductListFragment() {
         // Required empty public constructor
     }
@@ -51,6 +54,7 @@ public class ProductListFragment extends Fragment {
 
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +77,9 @@ public class ProductListFragment extends Fragment {
             case R.id.addProduct:
                 createDialog();
                 break;
+            case R.id.login:
+                startActivity(new Intent(getActivity(), FacebookAuthActivity.class));
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -84,10 +91,6 @@ public class ProductListFragment extends Fragment {
         super.onStart();
         updateUI();
     }
-
-
-
-
 
     private void updateUI() {
         mProducts = mHandler.getAllProducts();
@@ -122,13 +125,10 @@ public class ProductListFragment extends Fragment {
                     String desc = mDesc.getText().toString();
                     String price = mPrice.getText().toString();
                     String imgUrl = "randomText";
-//                    Product pr = new Product(title,desc,imgUrl,price);
-//                    dbOps.addProduct(pr);
+                    Product pr = new Product(1,title,desc,imgUrl,price);
+                    DbHelper.get(getContext()).addProduct(pr);
 
-//                    Product pr = new Product(null,title,desc,imgUrl,price);
-//                    DbOperations.get(getActivity()).addProduct(pr);
-
-//                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
                     mTtitle.setText("");
                     mDesc.setText("");
                     mPrice.setText("");

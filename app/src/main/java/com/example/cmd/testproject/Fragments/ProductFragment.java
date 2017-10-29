@@ -10,12 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.cmd.testproject.Database.DbHelper;
-import com.example.cmd.testproject.Database.DbOperations;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 
 public class ProductFragment extends Fragment {
