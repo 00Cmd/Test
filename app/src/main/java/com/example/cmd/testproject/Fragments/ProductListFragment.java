@@ -2,9 +2,11 @@ package com.example.cmd.testproject.Fragments;
 
 
 import android.app.Dialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.cmd.testproject.Activitys.FacebookAuthActivity;
@@ -24,6 +27,8 @@ import com.example.cmd.testproject.Database.DbHelper;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
 import com.facebook.FacebookActivity;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 
 
 import java.util.List;
@@ -62,8 +67,18 @@ public class ProductListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.listRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        FragmentManager fm = getFragmentManager();
+        Fragment frag = new FabFragment();
+        fm.beginTransaction().add(R.id.container,frag).commit();
+
         return view;
     }
+
+    private void setFloatingMenu(View view) {
+
+    }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
