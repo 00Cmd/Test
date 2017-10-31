@@ -74,33 +74,6 @@ public class ProductListFragment extends Fragment {
         return view;
     }
 
-    private void setFloatingMenu(View view) {
-
-    }
-
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu,menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addProduct:
-                createDialog();
-                break;
-            case R.id.login:
-                startActivity(new Intent(getActivity(), FacebookAuthActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
     @Override
     public void onStart() {
         super.onStart();
