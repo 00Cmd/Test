@@ -36,7 +36,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     COLUMN_TITLE + " TEXT, " +
                     COLUMN_DESCRIPTION + " TEXT, " +
                     COLUMN_PRICE + " TEXT, " +
-                    COLUMN_IMG_URL + " NUMERIC " +
+                    COLUMN_IMG_URL + " TEXT " +
                     ")";
 
     private static final String[] columns = {
@@ -67,6 +67,11 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS );
         db.execSQL(TABLE_CREATE);
+    }
+    public void deleteTable() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_PRODUCTS);
+        db.close();
     }
 
     public void addProduct(Product product){

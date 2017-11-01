@@ -1,10 +1,14 @@
 package com.example.cmd.testproject.Fragments;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,10 +31,13 @@ import com.example.cmd.testproject.Database.DbHelper;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
 import com.facebook.FacebookActivity;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -42,6 +49,7 @@ public class ProductListFragment extends Fragment {
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
     private DbHelper mHandler;
+
 
 
     public ProductListFragment() {
@@ -83,6 +91,7 @@ public class ProductListFragment extends Fragment {
     private void updateUI() {
 
         //Todo : add this to a new thread
+        //TODO: UI isn't updated after product is added by Admin.
         mProducts = mHandler.getAllProducts();
 
         if (mAdapter == null) {
@@ -93,45 +102,7 @@ public class ProductListFragment extends Fragment {
         }
     }
 
-    private void createDialog() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.setContentView(R.layout.dialog);
-        dialog.setTitle("Add new product");
-        final EditText mTtitle = (EditText)dialog.findViewById(R.id.produtTitle);
-        final EditText mDesc  = (EditText)dialog.findViewById(R.id.productDesc);
-        final EditText mPrice  = (EditText)dialog.findViewById(R.id.productPrice);
-        Button btnAdd  = (Button)dialog.findViewById(R.id.btnAdd);
-        Button btnCancel  = (Button)dialog.findViewById(R.id.btnCancel);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(TextUtils.isEmpty(mTtitle.getText().toString()) &&
-                        TextUtils.isEmpty(mDesc.getText().toString()) &&
-                        TextUtils.isEmpty(mPrice.getText().toString())) {
-                    Toast.makeText(getActivity(), " Fill out all fields.", Toast.LENGTH_SHORT).show();
-                } else {
-                    String title = mTtitle.getText().toString();
-                    String desc = mDesc.getText().toString();
-                    String price = mPrice.getText().toString();
-                    String imgUrl = "randomText";
-                    Product pr = new Product(1,title,desc,imgUrl,price);
-                    DbHelper.get(getContext()).addProduct(pr);
 
-                    Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
-                    mTtitle.setText("");
-                    mDesc.setText("");
-                    mPrice.setText("");
 
-                }
-            }
-        });
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
 }
