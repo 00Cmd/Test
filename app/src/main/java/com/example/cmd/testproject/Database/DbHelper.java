@@ -21,10 +21,10 @@ public class DbHelper extends SQLiteOpenHelper {
     private SQLiteOpenHelper mHelper;
 
     private static final String DATABASE_NAME = "products.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
-    public static final String TABLE_PRODUCTS = "employees";
-    public static final String COLUMN_ID = "empId";
+    public static final String TABLE_PRODUCTS = "products";
+    public static final String COLUMN_ID = "productId";
     public static final String COLUMN_TITLE = "title";
     public static final String COLUMN_DESCRIPTION = "description";
     public static final String COLUMN_PRICE = "price";
@@ -84,10 +84,20 @@ public class DbHelper extends SQLiteOpenHelper {
         mDatabase.insert(DbHelper.TABLE_PRODUCTS,null,values);
     }
 
-    public Product getProduct(long id) {
+    public Product getProduct(int id) {
         mDatabase = this.getReadableDatabase();
         Cursor cursor = mDatabase.query(DbHelper.TABLE_PRODUCTS,columns,DbHelper.COLUMN_ID + "=?",new String[]{String.valueOf(id)},null,null, null, null);
         if (cursor != null)
+            cursor.moveToFirst();
+        Product e = new Product(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
+        cursor.close();
+        return e;
+    }
+
+    public Product getProduct(String title) {
+        mDatabase = this.getReadableDatabase();
+        Cursor cursor = mDatabase.query(DbHelper.TABLE_PRODUCTS,columns,DbHelper.COLUMN_TITLE + "=? " ,new String[]{title},null,null,null);
+        if(cursor != null)
             cursor.moveToFirst();
         Product e = new Product(Integer.parseInt(cursor.getString(0)),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4));
         cursor.close();

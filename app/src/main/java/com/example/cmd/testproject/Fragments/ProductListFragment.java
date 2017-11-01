@@ -6,6 +6,7 @@ import android.app.Dialog;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,17 +31,9 @@ import com.example.cmd.testproject.Adapters.ListFragmentAdapter;
 import com.example.cmd.testproject.Database.DbHelper;
 import com.example.cmd.testproject.JavaObjects.Product;
 import com.example.cmd.testproject.R;
-import com.facebook.FacebookActivity;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-
-
-import java.io.IOException;
 import java.util.List;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 
 public class ProductListFragment extends Fragment {
@@ -49,6 +42,7 @@ public class ProductListFragment extends Fragment {
     private ListFragmentAdapter mAdapter;
     private List<Product> mProducts;
     private DbHelper mHandler;
+    private Bitmap bitmap;
 
 
 
@@ -64,7 +58,10 @@ public class ProductListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mHandler = new DbHelper(getContext());
         setHasOptionsMenu(true);
-
+        if(getArguments() != null) {
+            byte[] bytes = getArguments().getByteArray("imgUrl");
+            bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+        }
 
     }
 
@@ -79,6 +76,11 @@ public class ProductListFragment extends Fragment {
         Fragment frag = new FabFragment();
         fm.beginTransaction().add(R.id.container,frag).commit();
 
+        ImageView img = (ImageView)view.findViewById(R.id.imgUrl);
+        if(bitmap != null) {
+            img.setImageBitmap(bitmap);
+        }
+
         return view;
     }
 
@@ -89,7 +91,8 @@ public class ProductListFragment extends Fragment {
     }
 
     private void updateUI() {
-
+//        Product pr = new Product(1,"asd","asd","asd","asd");
+//        DbHelper.get(getActivity()).addProduct(pr);
         //Todo : add this to a new thread
         //TODO: UI isn't updated after product is added by Admin.
         mProducts = mHandler.getAllProducts();

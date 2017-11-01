@@ -37,19 +37,26 @@ import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.EventListener;
 
 /**
  * Created by cmd on 31.10.17.
  */
 
 public class FabFragment extends Fragment {
+    private EventListener listener;
     private EditText title,description,price;
     private ImageView image;
     private final int IMAGE_REQUEST = 1;
     private StorageReference mStorageRef;
     private Uri filePath;
+
+    public interface EventListener {
+        void setImage(Bitmap bitmap);
+    }
 
 
     public static Fragment get() {
@@ -62,7 +69,7 @@ public class FabFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mStorageRef = FirebaseStorage.getInstance().getReference("images");
+        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         setUp();
     }
@@ -173,9 +180,9 @@ public class FabFragment extends Fragment {
         });
     }
 
-    private void addToStorage() {
+    private void addToStorage(String id) {
         if(filePath != null) {
-            StorageReference riversRef = mStorageRef.child("images/rivers.jpg");
+            StorageReference riversRef = mStorageRef.child(id).child(filePath.getPath() + ".jpg");
 
             riversRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -232,9 +239,12 @@ public class FabFragment extends Fragment {
                     String mDesc = description.getText().toString();
                     String mPrice = price.getText().toString();
                     //TODO: add img url from firebase storage to upload to database.
+                    //It goes here first instead of onActivityResult
                     String imgUrl = filePath.getLastPathSegment();
                     Product pr = new Product(1,mTitle,mDesc,imgUrl,mPrice);
                     DbHelper.get(getContext()).addProduct(pr);
+                    Product p = DbHelper.get(getContext()).getProduct(mTitle);
+                    addToStorage(String.valueOf(p.getmId()));
 
                     Toast.makeText(getActivity(), pr.getTitle() + " was added", Toast.LENGTH_SHORT).show();
                     title.setText("");
@@ -256,6 +266,8 @@ public class FabFragment extends Fragment {
 
 
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -265,7 +277,14 @@ public class FabFragment extends Fragment {
                 filePath = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),filePath);
-                    image.setImageBitmap(bitmap);
+//                    ProductListFragment listFragment = new ProductListFragment();
+//                    Bundle bundle = new Bundle();
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                    byte[] byteArray = stream.toByteArray();
+//                    bundle.putByteArray("imgUrl",byteArray);
+//                    listFragment.setArguments(bundle);
+
                     //TODO: setImageAcordingly
                 } catch (IOException e) {
                     e.getLocalizedMessage();
